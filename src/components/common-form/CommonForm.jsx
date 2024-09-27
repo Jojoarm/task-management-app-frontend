@@ -1,7 +1,13 @@
 import CommonButton from '../common-button/CommonButton';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 
 function CommonForm({ formControls = [], handleSubmit, form, btnText }) {
   return (
@@ -22,20 +28,32 @@ function CommonForm({ formControls = [], handleSubmit, form, btnText }) {
                           <Input
                             placeholder={controlItem.placeholder}
                             type={controlItem.type}
+                            value={field.value}
                             {...field}
                             className="w-full rounded h-[50px] border-none text-black bg-gray-200 text-[16px] outline-none drop-shadow-sm transition-all duration-300 ease-in-out focus:bg-gray-100 focus:drop-shadow-lg focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                           />
                         </FormControl>
                       ) : controlItem.componentType === 'select' ? (
-                        <Select>
+                        <Select
+                          value={field.value}
+                          onValueChange={field.onChange}
+                        >
                           <FormControl>
                             <SelectTrigger className="w-full rounded h-[50px] border-none text-black bg-gray-200 text-[16px] outline-none drop-shadow-sm transition-all duration-300 ease-in-out focus:bg-gray-100 focus:drop-shadow-lg focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0">
-                              Select
+                              {field.value ? (
+                                <SelectValue
+                                  placeholder={controlItem.placeholder}
+                                  className="text-black focus:text-black"
+                                />
+                              ) : (
+                                'Select'
+                              )}
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent className="bg-white">
                             {controlItem.options.map((optionItem) => (
                               <SelectItem
+                                value={optionItem.id}
                                 key={optionItem.id}
                                 className="text-black cursor-pointer focus:text-black"
                               >
